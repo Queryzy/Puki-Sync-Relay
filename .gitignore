@@ -3,3 +3,4 @@ dist/
 sync.db*
 .wrangler/
 .env
+PRD*.md

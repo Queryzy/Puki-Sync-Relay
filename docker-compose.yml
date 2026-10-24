@@ -1,7 +1,6 @@
 services:
   relay:
-    build: .
-    image: puki-sync-relay:latest
+    image: ghcr.io/queryzy/puki-sync-relay:latest
     container_name: puki-sync-relay
     restart: unless-stopped
     ports:

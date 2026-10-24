@@ -67,16 +67,41 @@ Worker Anda akan aktif di URL `https://puki-sync.<subdomain>.workers.dev` atau c
 
 ---
 
-### Opsi 2: Docker / Docker Compose (Self-Hosted)
-Bagi pengguna yang ingin menjalankan relay di VPS sendiri atau server lokal (Homelab).
+### Opsi 2: Docker Container (GHCR / Self-Hosted)
+Bagi pengguna yang ingin menjalankan relay di VPS sendiri atau server lokal (Homelab) tanpa perlu build dari source:
 
+#### Menggunakan Docker Compose (Tinggal Jalankan)
+```yaml
+services:
+  relay:
+    image: ghcr.io/queryzy/puki-sync-relay:latest
+    container_name: puki-sync-relay
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DB_PATH=/data/sync.db
+    volumes:
+      - relay_data:/data
+
+volumes:
+  relay_data:
+```
+
+Jalankan container:
 ```bash
-# Clone repository
-git clone https://github.com/Queryzy/Puki-Sync-Relay.git
-cd Puki-Sync-Relay
+docker compose up -d
+```
 
-# Jalankan container via Docker Compose
-docker compose up -d --build
+#### Atau Jalankan via Docker CLI Langsung:
+```bash
+docker run -d \
+  --name puki-sync-relay \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  -v puki_relay_data:/data \
+  ghcr.io/queryzy/puki-sync-relay:latest
 ```
 
 Relay akan aktif pada port `8080` menggunakan SQLite lokal (`sync.db`).
