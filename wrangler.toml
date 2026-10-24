@@ -3,16 +3,16 @@ main = "src/worker.ts"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Custom Domain Route
-routes = [
-  { pattern = "puki-sync.diylabs.top", custom_domain = true }
-]
+# Custom Domain Route (Optional: sesuaikan dengan domain Anda)
+# routes = [
+#   { pattern = "sync.example.com", custom_domain = true }
+# ]
 
 # D1 Database Binding
 [[d1_databases]]
 binding = "DB"
 database_name = "puki-sync-db"
-database_id = "bfb9ebe9-d257-4044-bdcd-cb15839a3244"
+database_id = "YOUR_CLOUDFLARE_D1_DATABASE_ID"
 
 # Scheduled Cron Trigger (Daily Prune at 03:00 UTC)
 [triggers]
