@@ -1,0 +1,24 @@
+{
+  "name": "puki-sync-relay",
+  "version": "1.0.0",
+  "description": "Zero-Knowledge Blind Ledger Sync Relay for Puki Music (Cloudflare Workers & Docker)",
+  "main": "dist/worker.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev:worker": "wrangler dev",
+    "deploy:worker": "wrangler deploy",
+    "start:docker": "node dist/server.js",
+    "test": "node --test test/relay.test.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "@types/node": "^26.6.5",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.101.0"
+  }
+}

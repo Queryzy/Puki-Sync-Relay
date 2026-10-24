@@ -1,0 +1,16 @@
+services:
+  relay:
+    build: .
+    image: puki-sync-relay:latest
+    container_name: puki-sync-relay
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DB_PATH=/data/sync.db
+    volumes:
+      - relay_data:/data
+
+volumes:
+  relay_data:
