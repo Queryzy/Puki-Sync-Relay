@@ -59,7 +59,7 @@ test('Puki Sync Relay - Full Lifecycle & Security Suite', async (t) => {
     assert.equal(initJson.vault_id, vaultId);
   });
 
-  await t.test('4. Duplicate Vault ID rejected with 409 Conflict', async () => {
+  await t.test('4. Existing Vault ID updates auth_verifier gracefully', async () => {
     // Re-solve with new challenge
     const chRes = await app.request('/api/v1/vault/challenge');
     const ch = await chRes.json();
@@ -80,7 +80,9 @@ test('Puki Sync Relay - Full Lifecycle & Security Suite', async (t) => {
         nonce: String(nonce)
       })
     });
-    assert.equal(dupRes.status, 409);
+    assert.equal(dupRes.status, 200);
+    const dupJson = await dupRes.json();
+    assert.equal(dupJson.updated, true);
   });
 
   await t.test('5. Push rejected without valid signature', async () => {

@@ -76,11 +76,7 @@ export function createRelayApp(getDb: (c: any) => IDatabase) {
     const db = getDb(c);
     const res = await db.initVault(vault_id, auth_verifier, Date.now());
 
-    if (res.conflict) {
-      return c.json({ error: 'Vault ID already exists' }, 409);
-    }
-
-    return c.json({ success: true, vault_id }, 201);
+    return c.json({ success: true, vault_id, updated: res.updated || false }, res.updated ? 200 : 201);
   });
 
   // Authentication Middleware for /api/v1/sync/*

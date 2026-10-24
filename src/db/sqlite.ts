@@ -32,15 +32,15 @@ export class SqliteDatabase implements IDatabase {
     `);
   }
 
-  async initVault(vaultId: string, authVerifier: string, createdAt: number): Promise<{ success: boolean; conflict?: boolean }> {
+  async initVault(vaultId: string, authVerifier: string, createdAt: number): Promise<{ success: boolean; conflict?: boolean; updated?: boolean }> {
     const existing = this.db.prepare('SELECT vault_id FROM vaults WHERE vault_id = ?').get(vaultId);
-    if (existing) {
-      return { success: false, conflict: true };
-    }
-
-    const insert = this.db.prepare('INSERT INTO vaults (vault_id, auth_verifier, created_at) VALUES (?, ?, ?)');
+    const insert = this.db.prepare(`
+      INSERT INTO vaults (vault_id, auth_verifier, created_at)
+      VALUES (?, ?, ?)
+      ON CONFLICT(vault_id) DO UPDATE SET auth_verifier = excluded.auth_verifier
+    `);
     insert.run(vaultId, authVerifier, createdAt);
-    return { success: true };
+    return { success: true, updated: !!existing };
   }
 
   async getVault(vaultId: string): Promise<VaultRecord | null> {

@@ -4,17 +4,18 @@ import { VaultRecord, SyncEventRecord, PushEventItem } from '../types.js';
 export class D1DatabaseAdapter implements IDatabase {
   constructor(private d1: D1Database) {}
 
-  async initVault(vaultId: string, authVerifier: string, createdAt: number): Promise<{ success: boolean; conflict?: boolean }> {
+  async initVault(vaultId: string, authVerifier: string, createdAt: number): Promise<{ success: boolean; conflict?: boolean; updated?: boolean }> {
     const existing = await this.d1.prepare('SELECT vault_id FROM vaults WHERE vault_id = ?').bind(vaultId).first();
-    if (existing) {
-      return { success: false, conflict: true };
-    }
 
-    await this.d1.prepare('INSERT INTO vaults (vault_id, auth_verifier, created_at) VALUES (?, ?, ?)')
+    await this.d1.prepare(`
+      INSERT INTO vaults (vault_id, auth_verifier, created_at)
+      VALUES (?, ?, ?)
+      ON CONFLICT(vault_id) DO UPDATE SET auth_verifier = excluded.auth_verifier
+    `)
       .bind(vaultId, authVerifier, createdAt)
       .run();
 
-    return { success: true };
+    return { success: true, updated: !!existing };
   }
 
   async getVault(vaultId: string): Promise<VaultRecord | null> {
