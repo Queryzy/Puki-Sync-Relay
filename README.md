@@ -38,7 +38,7 @@ Puki Sync Relay mendukung dua metode deployment: **Cloudflare Workers (Gratis & 
 Sangat direkomendasikan karena berjalan di edge global Cloudflare dengan latensi super rendah dan 0 biaya operasional.
 
 #### Prasyarat
-* Node.js 18+ & npm
+* Node.js 22 LTS (Active LTS) & npm (wajib Node 22+ untuk dukungan native `node:sqlite` di self-hosted)
 * Akun Cloudflare (Free)
 
 #### Langkah Deploy
