@@ -5,10 +5,11 @@
   "main": "dist/worker.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run build:bundle",
+    "build:bundle": "esbuild src/server.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/bundle.mjs --external:node:sqlite",
     "dev:worker": "wrangler dev",
     "deploy:worker": "wrangler deploy",
-    "start:docker": "node dist/server.js",
+    "start:docker": "node dist/bundle.mjs",
     "test": "node --test test/relay.test.js"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241230.0",
     "@types/node": "^26.6.5",
+    "esbuild": "^0.17.19",
     "typescript": "^5.7.2",
     "wrangler": "^3.101.0"
   }
