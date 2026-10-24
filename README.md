@@ -2,6 +2,7 @@
 
 <div align="center">
 
+### **P.U.K.I.** — *Pure Unlimited Kinetic Interface*
 **Zero-Knowledge Blind Ledger Sync Relay for Puki Music Ecosystem**
 
 [![Deploy to Cloudflare Workers](https://img.shields.io/badge/Deploy-Cloudflare_Workers_%2B_D1-orange.svg)](https://workers.cloudflare.com)
